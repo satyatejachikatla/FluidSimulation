@@ -18,7 +18,7 @@ OBJS := *.o */*.o
 all : clean build
 
 build:
-	$(CXX) $(CFLAGS) $(LIBS) -c *.cpp $(LDFLAGS)
+	$(CXX) $(CFLAGS) $(LIBS) $(LDFLAGS) -c *.cpp 
 
 clean:
 	rm -f *.o

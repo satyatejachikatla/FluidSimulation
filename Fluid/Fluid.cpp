@@ -106,7 +106,7 @@ static void project(std::vector<float>& velocX, std::vector<float>& velocY, std:
                 p[IX(i, j)] = 0;
             }
         }
-    set_bnd(0, div, N); 
+    set_bnd(0, div, N);
     set_bnd(0, p, N);
     lin_solve(0, p, div, 1, 6, iter, N);
     
@@ -174,23 +174,21 @@ void FluidCube::step() {
 	int N = this->size;
     int iter = 4;
 
-	diffuse(1, Vx0, Vx, visc, dt, iter, N);
-	diffuse(2, Vy0, Vy, visc, dt, iter, N);
+    diffuse(1, Vx0, Vx, visc, dt, iter, N);
+    diffuse(2, Vy0, Vy, visc, dt, iter, N);
 
-	project(Vx0, Vy0, Vx, Vy, iter, N);
+    project(Vx0, Vy0, Vx, Vy, iter, N);
 
-	advect(1, Vx, Vx0, Vx0, Vy0, dt, N);
-	advect(2, Vy, Vy0, Vx0, Vy0, dt, N);
+    advect(1, Vx, Vx0, Vx0, Vy0, dt, N);
+    advect(2, Vy, Vy0, Vx0, Vy0, dt, N);
 
-	project(Vx, Vy, Vx0, Vy0, iter, N);
-
-	diffuse(0, s, density, diff, dt, iter, N);
-	advect(0, density, s, Vx, Vy, dt, N);
+    project(Vx, Vy, Vx0, Vy0, iter, N);
+    diffuse(0, s, density, diff, dt, iter, N);
+    advect(0, density, s, Vx, Vy, dt, N);
 }
 
 
 float clamp(float x0,float x1,float n) {
-    n = abs(n);
     if ( x0 <= n && n <= x1 )
         return n;
     if ( n <= x0 )
@@ -198,7 +196,7 @@ float clamp(float x0,float x1,float n) {
     return x1;
 }
 
-void FluidCube::saveImage(std::string filePath){
+cv::Mat FluidCube::getImage(){
 
     int N = this->size;
     int nx,ny;
@@ -212,9 +210,10 @@ void FluidCube::saveImage(std::string filePath){
             int ir,ig,ib;
             ir  = clamp(0,255,Vx[IX(i,j)]);
             ig  = clamp(0,255,Vy[IX(i,j)]);
-            ib  = clamp(0,255,density[IX(i,j)]);
+            ib  = clamp(0,255,density[IX(i,j)])*2.;
 
-            //ir = ig = ib;
+            ir = ig = ib;
+            //ib = 0;
 
             img.at<cv::Vec3b>(ny-j-1,i)[0] = ib;/*B*/
             img.at<cv::Vec3b>(ny-j-1,i)[1] = ig;/*G*/
@@ -222,6 +221,11 @@ void FluidCube::saveImage(std::string filePath){
         }
     }
 
-    cv::imwrite(filePath,img);
+    return img;
 }
 
+void FluidCube::saveImage(std::string filePath){
+
+    cv::imwrite(filePath,getImage());
+
+}

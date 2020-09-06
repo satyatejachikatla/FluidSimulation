@@ -28,5 +28,5 @@ clean:
 	$(MAKE) -C Fluid clean
 	rm -f *.o
 	rm -f run
-	rm *.jpg
+	rm -f *.jpg
 

@@ -3,6 +3,10 @@
 #include <vector>
 #include <string>
 
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/imgcodecs.hpp>
+
 #define IX(x, y) ((x) + (y) * N)
 
 class FluidCube {
@@ -32,4 +36,5 @@ class FluidCube {
 		void step();
 
 		void saveImage(std::string filePath);
+		cv::Mat getImage();
 };
