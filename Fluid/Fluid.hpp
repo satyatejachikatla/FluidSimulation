@@ -35,6 +35,5 @@ class FluidCube {
 		void addVelocity(int x, int y, float amountX, float amountY);
 		void step();
 
-		void saveImage(std::string filePath);
 		cv::Mat getImage();
 };

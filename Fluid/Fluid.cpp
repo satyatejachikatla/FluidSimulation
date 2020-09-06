@@ -223,9 +223,3 @@ cv::Mat FluidCube::getImage(){
 
     return img;
 }
-
-void FluidCube::saveImage(std::string filePath){
-
-    cv::imwrite(filePath,getImage());
-
-}

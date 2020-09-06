@@ -21,7 +21,7 @@ int placex = N/2;
 int placy = N/2;
 
 int dt = 1;
-int T = 100000;
+int T = 1000;
 
 FluidCube* mouse_callback_cube_reference = nullptr;
 
@@ -49,19 +49,12 @@ int main() {
 
 	namedWindow( WINDOW_NAME, WINDOW_AUTOSIZE );
 	setMouseCallback(WINDOW_NAME, mouse_callback);
+	Mat img1(N,N,CV_8UC3,cv::Scalar(0,0,0));
+	Mat img2(N*SCALE,N*SCALE,CV_8UC3,cv::Scalar(0,0,0));
+
 
 	FluidCube cube(N,0,0,dt);
 	mouse_callback_cube_reference = &cube;
-
-	// for(int i=0;i<N;i++) {
-	// 	for(int j=0;j<N;j++) {
-	// 		float randX = (float(rand())/float((RAND_MAX)) * LIMIT_VELOCITY) - LIMIT_VELOCITY/2;
-	// 		float randY = (float(rand())/float((RAND_MAX)) * LIMIT_VELOCITY) - LIMIT_VELOCITY/2;
-
-	// 		cube.addVelocity(i,i,randX,randY);
-	// 		cube.addDensity(i,i,100);
-	// 	}
-	// }
 
 	for(int t=0;t<T;t++) {
 
@@ -77,8 +70,6 @@ int main() {
 		cube.step();
 		
 		if(t % 10 == 0) {
-			Mat img1(N,N,CV_8UC3,cv::Scalar(0,0,0));
-			Mat img2(N*SCALE,N*SCALE,CV_8UC3,cv::Scalar(0,0,0));
 
 			img1 = cube.getImage();
 			resize(img1,img2,img2.size());
@@ -89,7 +80,7 @@ int main() {
 
 	}
 
-	cube.saveImage("./abc.jpg");
+	imwrite("./abc.jpg",img2);
 
 	return 0;
 }
