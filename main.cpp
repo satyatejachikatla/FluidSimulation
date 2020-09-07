@@ -12,16 +12,18 @@
 using namespace cv;
 using namespace std;
 
-#define LIMIT_VELOCITY 100.0f
+#define LIMIT_VELOCITY 5.0f
 #define WINDOW_NAME "DisplayFluid"
 
 int N = 64;
 int SCALE=10;
 int placex = N/2;
 int placy = N/2;
+float diffusion=0;
+float viscosity=0;
 
-int dt = 1;
-int T = 1000;
+float dt = .1;
+int T = 1000000;
 
 FluidCube* mouse_callback_cube_reference = nullptr;
 
@@ -53,7 +55,7 @@ int main() {
 	Mat img2(N*SCALE,N*SCALE,CV_8UC3,cv::Scalar(0,0,0));
 
 
-	FluidCube cube(N,0,0,dt);
+	FluidCube cube(N,diffusion,viscosity,dt);
 	mouse_callback_cube_reference = &cube;
 
 	for(int t=0;t<T;t++) {

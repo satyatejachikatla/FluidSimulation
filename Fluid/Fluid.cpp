@@ -8,11 +8,8 @@
 
 #include <Fluid.hpp>
 
-void foo() {
-	std::cout << "Foo" << std::endl;
-}
 
-FluidCube::FluidCube(int size, int diffusion, int viscosity, float dt) {
+FluidCube::FluidCube(int size, float diffusion, float viscosity, float dt) {
 
 	int N = size;
 
@@ -208,12 +205,7 @@ cv::Mat FluidCube::getImage(){
         for (int i = 0; i < nx; i++) {
 
             int ir,ig,ib;
-            ir  = clamp(0,255,Vx[IX(i,j)]);
-            ig  = clamp(0,255,Vy[IX(i,j)]);
-            ib  = clamp(0,255,density[IX(i,j)])*2.;
-
-            ir = ig = ib;
-            //ib = 0;
+            ir = ig = ib = clamp(0,255,density[IX(i,j)])*2.;
 
             img.at<cv::Vec3b>(ny-j-1,i)[0] = ib;/*B*/
             img.at<cv::Vec3b>(ny-j-1,i)[1] = ig;/*G*/

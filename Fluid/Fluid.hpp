@@ -28,7 +28,7 @@ class FluidCube {
 	
 		std::vector<float> density;
 
-		FluidCube(int size, int diffusion, int viscosity, float dt);
+		FluidCube(int size, float diffusion, float viscosity, float dt);
 		~FluidCube();
 
 		void addDensity(int x, int y, float amount);
